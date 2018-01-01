@@ -1,0 +1,28 @@
+{
+  "name": "<%= moduleName %>",
+  "version": "0.0.1",
+  "description": "<%= moduleDescription %>",
+  "license": "MIT",
+  "repository": "<%= githubUsername %>/<%= repoName %>",
+  "author": {
+    "name": "<%= name %>",
+    "email": "<%= email %>",
+    "url": "<%= humanizedWebsite %>"
+  },
+  "engines": {
+    "node": ">=6"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "basedakp48-connector"
+  ],
+  "dependencies": {
+    "firebase-admin": "^5.0.0"
+  },
+  "devDependencies": {}
+}
