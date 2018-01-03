@@ -1,5 +1,5 @@
 {
-  "name": "generator-basedakp48-connector",
+  "name": "@basedakp48/generator-connector",
   "version": "1.1.1",
   "description": "Scaffold out a BasedAKP48 connector",
   "license": "MIT",
@@ -9,6 +9,9 @@
     "email": "austin@akpwebdesign.com",
     "url": "https://blog.akpwebdesign.com"
   },
+  "contributors": [
+    "Alan H (feildmaster) <akp48@feildmaster.com> (https://feildmaster.com/)"
+  ],
   "engines": {
     "node": ">=4"
   },
@@ -17,8 +20,8 @@
   ],
   "keywords": [
     "yeoman-generator",
-    "connector",
-    "basedakp48"
+    "basedakp48",
+    "basedakp48-connector-generator"
   ],
   "dependencies": {
     "humanize-url": "^1.0.1",
