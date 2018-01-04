@@ -1,11 +1,11 @@
-# generator-basedakp48-connector
+# @basedakp48/generator-connector
 
 > Scaffold out a [BasedAKP48](https://github.com/BasedAKP48) connector.
 
 ## Install
 
 ```
-$ npm install --global yo generator-basedakp48-connector
+$ npm install --global @basedakp48/generator-connector
 ```
 
 
@@ -14,7 +14,7 @@ $ npm install --global yo generator-basedakp48-connector
 With [yo](https://github.com/yeoman/yo):
 
 ```
-$ yo basedakp48-connector
+$ yo @basedakp48/connector
 ```
 
 ## License
