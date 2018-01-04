@@ -1,9 +1,16 @@
 /**
  * Welcome to your new BasedAKP48 connector, "<%= moduleName %>"! Let's get started!
  */
-
 // firebase-admin is what allows us to connect to the Firebase database.
 const admin = require('firebase-admin');
+// inquirer allows us to prompt for information if needed
+const inquirer = require('inquirer');
+// plugin-utils give us access to useful functions
+const utils = require('@basedakp48/plugin-utils');
+// presence allows us to register our "presence" to the database, with functions for us to use.
+const presence = new utils.PresenceSystem();
+// Load our pakage data, for use in presence
+const pkg = require('./package.json');
 
 /**
  * A serviceAccount.json file is required to connect.
@@ -11,31 +18,26 @@ const admin = require('firebase-admin');
  */
 const serviceAccount = require("./serviceAccount.json");
 
-// Initialize the Firebase app. Change the URL below if you're using another Firebase database.
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: `https://${serviceAccount.project_id}.firebaseio.com`
-});
+// Initialize the Firebase app.
+utils.initialize(admin, serviceAccount);
 
 const rootRef = admin.database().ref();
-let cid, connection;
+const cid = utils.getCID(rootRef, __dirname);
+let connection;
 
-try {
-  cid = require('./cid.json');
-} catch (e) {
-  let fs = require('fs');
-  let clientRef = rootRef.child('config/clients').push();
-  cid = clientRef.key;
-  fs.writeFileSync('./cid.json', JSON.stringify(cid), {encoding: 'UTF-8'});
-}
+// Initialize presence
+presence.initialize({
+  rootRef, cid, pkg,
+  listenMode: 'connector',
+});
 
+// Load and update configuration.
 rootRef.child(`config/clients/${cid}`).on('value', (d) => {
   let config = d.val();
 
   // Prompt for token if missing
   if(!config || !d.hasChild('token')) {
-    prompt(d.ref);
-    return;
+    return prompt(d.ref);
   }
   
   // Handle changes in configuration
@@ -45,7 +47,22 @@ rootRef.child(`config/clients/${cid}`).on('value', (d) => {
   
   // Create a connection if needed
   setupConnection();
-}
+});
+
+// Listen for messages to send
+rootRef.child(`clients/${cid}`).on('child_added', (d) => {
+  // If we don't have an active connection, we need to delete the message (or it will remain stale)
+  if (!connection) return d.ref.remove();
+
+  let msg = d.val();
+  if (msg.type.toLowerCase() === 'text') {
+    // Send an outgoing message via connection
+    // connection.sendMessage(msg.text);
+    
+    // Remove message from the queue
+    d.ref.remove();
+  }
+});
 
 function setupConnection() {
   if (connection) return;
@@ -54,24 +71,11 @@ function setupConnection() {
   // connection = new yourConnection();
   
   // And more connection setup
-  
-  // Listen for outgoing messages
-  rootRef.child(`clients/${cid}`).on('child_added', (d) => {
-    let msg = d.val();
-    if (msg.msgType.toLowerCase() === 'chatmessage') {
-      // Send an outgoing message via connection
-      // connection.sendMessage(msg.text);
-      
-      // Remove message from the queue
-      d.ref.remove();
-    }
-  };
 }
 
 // This is called by handleMessage
 function isOur(msg) {
-  // !!! Be sure to change this
-  return true;
+  return 'TODO: change me';
 }
 
 // This gets called by your connection
@@ -79,9 +83,9 @@ function handleMessage(msg) {
   if (isOur(msg)) return;
   let incomingMessage = {
     cid: cid,
-    uid: '!!! Change me',
-    text: '!!! Change me',
-    channel: '!!! Change me',
+    uid: 'TODO: Change me',
+    text: 'TODO: Change me',
+    channel: 'TODO: Change me',
     msgType: 'chatMessage',
     timeReceived: msg.timestamp || Date.now()
   };

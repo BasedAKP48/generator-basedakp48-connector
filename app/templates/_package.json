@@ -19,10 +19,13 @@
     "index.js"
   ],
   "keywords": [
+    "basedakp48",
     "basedakp48-connector"
   ],
   "dependencies": {
-    "firebase-admin": "^5.0.0"
+    "@basedakp48/plugin-utils": "^1.8.0",
+    "firebase-admin": "^5.0.0",
+    "inquirer": "^4.0.1"
   },
   "devDependencies": {}
 }
