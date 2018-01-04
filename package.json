@@ -1,6 +1,6 @@
 {
   "name": "@basedakp48/generator-connector",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Scaffold out a BasedAKP48 connector",
   "license": "MIT",
   "repository": "BasedAKP48/generator-basedakp48-connector",
